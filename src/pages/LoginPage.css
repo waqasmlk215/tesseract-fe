@@ -1,0 +1,82 @@
+/* Full-page Saturn background */
+.login-page {
+  height: 100vh;
+  width: 100%;
+  background-image: url('https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Glassmorphic login container */
+.login-container {
+  background: rgba(20, 20, 20, 0.85);
+  padding: 50px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  width: 90%;
+  max-width: 380px;
+}
+
+/* Title */
+.login-title {
+  color: #00ffff;
+  margin-bottom: 30px;
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Inputs */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-input {
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: transparent;
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: #00ffff;
+}
+
+/* Button */
+.login-button {
+  padding: 14px 18px;
+  border-radius: 6px;
+  border: 1px solid #00ffff;
+  background-color: transparent;
+  color: #00ffff;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #00ffff;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* Error Message */
+.login-error {
+  color: #ff4d4d;
+  margin-top: 15px;
+}
