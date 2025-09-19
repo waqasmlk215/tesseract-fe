@@ -1,0 +1,159 @@
+/* Global wrapper */
+.mission-page {
+  background: black;
+  color: white;
+  min-height: 100vh;
+  padding: 20px 40px;
+  font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* === HEADINGS === */
+.launch-heading {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.launch-paragraph {
+  font-size: 15px;
+  margin-bottom: 20px;
+  color: #aaa;
+  text-align: center;
+}
+
+/* === MISSION LISTS === */
+
+.mission-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+.mission-description {
+  margin: 2px 0;
+  color: #bbb;
+  font-size: 14px;
+}
+.mission-date {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+.mission-line,
+.completed-line {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 0;
+  margin: 0 auto 12px;
+  max-width: 1100px;
+}
+
+/* === ACTIONS === */
+.mission-actions,
+.action-buttons-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.action-button {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+.action-button:hover {
+  background: white;
+  color: black;
+}
+
+/* === LAUNCH FORM === */
+.launch-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 30px;
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 500px;
+  margin: 40px auto;
+  border-radius: 6px;
+}
+
+.launch-input {
+  width: 100%;
+  max-width: 320px;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 3px;
+  background-color: #111;
+  color: #fff;
+  font-size: 14px;
+}
+
+.launch-button {
+  width: 220px;
+  height: 45px;
+  border: 1px solid white;
+  border-radius: 3px;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.launch-button:hover {
+  background: white;
+  color: black;
+}
+
+/* === RESCHEDULE BOX === */
+.reschedule-box {
+  margin-top: 20px;
+  padding: 20px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 6px;
+  text-align: center;
+  max-width: 400px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .mission-page {
+    padding: 15px 20px;
+  }
+
+  .launch-heading {
+    font-size: 22px;
+  }
+
+  .launch-form-wrapper {
+    padding: 20px;
+    width: 90%;
+  }
+
+  .action-buttons-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .launch-button {
+    width: 100%;
+  }
+}

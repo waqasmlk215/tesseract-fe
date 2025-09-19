@@ -1,0 +1,64 @@
+/* Tabs wrapper */
+.tabs {
+  display: flex;
+  justify-content: space-between; /* center everything */
+  align-items: center;
+  gap: 40px; /* spacing between brand + tab group */
+  margin-bottom: 40px;
+  position: sticky;
+  top: 0;
+  background-color: #000;
+  z-index: 10;
+  flex-wrap: wrap;
+  padding: 15px 40px;
+}
+
+/* Brand (Tesseract logo/text) */
+.brand {
+  font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+/* Tab buttons container */
+.tab-group {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center; /* keep buttons centered */
+}
+
+/* Default tab */
+.tab {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 12px 28px;
+  cursor: pointer;
+  border-radius: 0; /* <-- sharp edges */
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 1px;
+}
+
+/* Hover */
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Active tab */
+.active-tab {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #fff;
+  padding: 12px 28px;
+  cursor: pointer;
+  border-radius: 0; /* <-- sharp edges */
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}

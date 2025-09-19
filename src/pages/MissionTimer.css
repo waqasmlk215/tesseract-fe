@@ -1,0 +1,7 @@
+.mission-timer {
+  color: rgba(92, 94, 92, 1); /* SpaceX grey tone */
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "D-DIN Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 1px;
+}

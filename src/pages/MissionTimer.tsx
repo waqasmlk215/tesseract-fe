@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./MissionTimer.css";
 
 interface MissionTimerProps {
   date: string; // ISO string date of mission
@@ -18,25 +19,29 @@ const MissionTimer: React.FC<MissionTimerProps> = ({ date, onExpire }) => {
       if (distance <= 0) {
         clearInterval(interval);
         setTimeLeft("00:00:00");
-        onExpire(); // notify MissionPage that mission expired
+        onExpire();
         return;
       }
 
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       setTimeLeft(
         `${hours.toString().padStart(2, "0")}:${minutes
           .toString()
-          .padStart(9, "0")}:${seconds.toString().padStart(2, "0")}`
+          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
       );
     }, 1000);
 
     return () => clearInterval(interval);
   }, [date, onExpire]);
 
-  return <span style={{ color: "rgba(92, 94, 92, 1)", fontWeight: "bold" }}>{timeLeft}</span>;
+  return <span className="mission-timer">{timeLeft}</span>;
 };
 
 export default MissionTimer;
