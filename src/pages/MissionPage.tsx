@@ -50,7 +50,7 @@ return (
 };
 
 const MissionPage: React.FC = () => {
-  const [tab, setTab] = useState<"current" | "launch" | "completed" | "archive">("current");
+  const [tab, setTab] = useState<"current" | "launch" | "completed" | "archive" |"planets">("current");
   const [missions, setMissions] = useState<Mission[]>([]);
   const [completed, setCompleted] = useState<Mission[]>([]);
   const [archived, setArchived] = useState<Mission[]>([]);
@@ -299,8 +299,49 @@ return (
         )}
       </div>
     )}
+    {/* ✅ Planets Tab (inside return) */}
+    {tab === "planets" && (
+      <div>
+        <h1 className="launch-heading">Habitable Planets</h1>
+        <p className="launch-paragraph">
+          Exploring potential worlds beyond Earth.
+        </p>
+
+        <div className="planet-list">
+          {[
+            {
+              name: "Mars",
+              desc: "The Red Planet – closest habitable candidate.",
+              distance: "225M km",
+            },
+            {
+              name: "Kepler-452b",
+              desc: "An Earth-like planet in the habitable zone.",
+              distance: "1,400 ly",
+            },
+            {
+              name: "Proxima b",
+              desc: "Orbits Proxima Centauri, our nearest star neighbor.",
+              distance: "4.24 ly",
+            },
+          ].map((planet, idx) => (
+            <div key={idx} className="planet-card">
+              <h3 className="planet-title">{planet.name}</h3>
+              <p className="planet-description">{planet.desc}</p>
+              <p className="planet-distance">
+                Distance: <b>{planet.distance}</b>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}  
   </div> 
-  );
+);
+
+
 }
+
+
 
 export default MissionPage;

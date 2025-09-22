@@ -2,16 +2,17 @@ import React from "react";
 import "./MissionTabs.css";
 
 interface MissionTabsProps {
-  tab: "current" | "launch" | "completed" | "archive";
-  setTab: (tab: "current" | "launch" | "completed" | "archive") => void;
+  tab: "current" | "launch" | "completed" | "archive" |"planets";
+  setTab: (tab: "current" | "launch" | "completed" | "archive" | "planets") => void;
 }
 
 const MissionTabs: React.FC<MissionTabsProps> = ({ tab, setTab }) => {
-  const tabs: { key: "current" | "launch" | "completed" | "archive"; label: string }[] = [
+  const tabs: { key: "current" | "launch" | "completed" | "archive" |"planets"; label: string }[] = [
     { key: "current", label: "Current Missions" },
     { key: "launch", label: "Launch Options" },
     { key: "completed", label: "Completed Missions" },
     { key: "archive", label: "Archived Missions" },
+    { key: "planets", label: "planets" },
   ];
 
   return (
