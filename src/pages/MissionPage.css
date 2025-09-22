@@ -3,7 +3,7 @@
   background: black;
   color: white;
   min-height: 100vh;
-  padding: 20px 40px;
+  padding: 10px 10px;
   font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -42,12 +42,16 @@
   font-size: 14px;
   color: #ccc;
 }
+
 .mission-line,
 .completed-line {
+  display: flex; 
+  align-items: center;
+  gap: 12px;  
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 14px 0;
   margin: 0 auto 12px;
-  max-width: 1100px;
+  max-width: 1290px;
 }
 
 /* === ACTIONS === */
@@ -57,6 +61,7 @@
   gap: 10px;
   flex-wrap: wrap;
   margin-top: 10px;
+  margin-left: auto;
 }
 .action-button {
   background: transparent;
@@ -85,7 +90,7 @@
   gap: 16px;
   padding: 30px;
   background-color: #000;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgb(255, 255, 255);
   max-width: 500px;
   margin: 40px auto;
   border-radius: 6px;

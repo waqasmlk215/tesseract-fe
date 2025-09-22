@@ -8,6 +8,7 @@ interface Mission {
   name: string;
   date: string;
   description: string;
+  image?: string;
   onExpire?: (id: number) => void;
 }
 
@@ -18,34 +19,46 @@ const MissionCard: React.FC<{
 }> = ({ mission, onDelete, onComplete }) => {
   
 return (
-    <div className="mission-line">
-      <div>
-        <h3 style={{ margin: "0", fontSize: "18px" }}>{mission.name}</h3>
-        <p style={{ margin: "2px 0", color: "#bbb" }}>{mission.description}</p>
-        <p style={{ margin: "2px 0", fontSize: "14px" }}>
-          Scheduled: <b>{mission.date}</b>{" "}
-          {mission.onExpire && (
-            <MissionTimer
-              date={mission.date}
-              onExpire={() => mission.onExpire!(mission.id)}
-            />
-          )}
-        </p>
+  <div className="mission-line">
+    {/* Mission image */}
+    <img
+    src={mission.image || "/testicon.png"}
+    alt={mission.name}
+    style={{ width: "164px", height: "83px", marginRight: "16px" }}
+    onError={(e) => {
+    const t = e.currentTarget;
+    if (!t.dataset.fallback) {     // only do this once
+      t.dataset.fallback = "1";
+      t.src = "/default-mission.png";
+    }
+  }}
+/>
 
-      </div>
+    <div>
+      <h3 style={{ margin: "0", fontSize: "18px" }}>{mission.name}</h3>
+      <p style={{ margin: "2px 0", color: "#bbb" }}>{mission.description}</p>
+      <p style={{ margin: "2px 0", fontSize: "14px" }}>
+        Scheduled: <b>{mission.date}</b>{" "}
+        {mission.onExpire && (
+          <MissionTimer
+            date={mission.date}
+            onExpire={() => mission.onExpire!(mission.id)}
+          />
+        )}
+      </p>
+    </div>
 
-<div className="mission-actions">
-  {onComplete && (
-    <button className="action-button" onClick={() => onComplete(mission.id)}>
-      ✅ Complete
-    </button>
-  )}
-  <button className="action-button" onClick={() => onDelete(mission.id)}>
-    ❌ Delete
-  </button>
-</div>
-</div>
-
+    <div className="mission-actions">
+      {onComplete && (
+        <button className="action-button" onClick={() => onComplete(mission.id)}>
+          ✅ Complete
+        </button>
+      )}
+      <button className="action-button" onClick={() => onDelete(mission.id)}>
+        ❌ Delete
+      </button>
+    </div>
+  </div>
   );
 };
 
@@ -54,7 +67,7 @@ const MissionPage: React.FC = () => {
   const [missions, setMissions] = useState<Mission[]>([]);
   const [completed, setCompleted] = useState<Mission[]>([]);
   const [archived, setArchived] = useState<Mission[]>([]);
-  const [newMission, setNewMission] = useState({ name: "", date: "", description: "" });
+  const [newMission, setNewMission] = useState({ name: "", date: "", description: "", image: "" });
   const [rescheduleId, setRescheduleId] = useState<number | null>(null);
   const [rescheduleDate, setRescheduleDate] = useState("");
 
@@ -107,7 +120,7 @@ const MissionPage: React.FC = () => {
       body: JSON.stringify(newMission),
     });
 
-    setNewMission({ name: "", date: "", description: "" });
+    setNewMission({ name: "", date: "", description: "", image: "" });
     refreshMissions();
   };
 
@@ -185,45 +198,58 @@ return (
       </>
     )}
 
-    {/* Launch Options */}
-    {tab === "launch" && (
-      <div className="launch-form-wrapper">
-        <h1 className="launch-heading">Launch Options</h1>
-        <p className="launch-paragraph">
-          Configure and schedule new missions.
-        </p>
+   {/* Launch Options */}
+{tab === "launch" && (
+  <div className="launch-form-wrapper">
+    <h1 className="launch-heading">Launch Options</h1>
+    <p className="launch-paragraph">
+      Configure and schedule new missions.
+    </p>
 
-        <input
-          type="text"
-          placeholder="Mission Name"
-          value={newMission.name}
-          onChange={(e) =>
-            setNewMission({ ...newMission, name: e.target.value })
-          }
-          className="launch-input"
-        />
-        <input
-          type="datetime-local"
-          value={newMission.date}
-          onChange={(e) =>
-            setNewMission({ ...newMission, date: e.target.value })
-          }
-          className="launch-input"
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          value={newMission.description}
-          onChange={(e) =>
-            setNewMission({ ...newMission, description: e.target.value })
-          }
-          className="launch-input"
-        />
-        <button className="launch-button" onClick={handleAddMission}>
-          ➕ Add Mission
-        </button>
-      </div>
-    )}
+    <input
+      type="text"
+      placeholder="Mission Name"
+      value={newMission.name}
+      onChange={(e) =>
+        setNewMission({ ...newMission, name: e.target.value })
+      }
+      className="launch-input"
+    />
+
+    <input
+      type="datetime-local"
+      value={newMission.date}
+      onChange={(e) =>
+        setNewMission({ ...newMission, date: e.target.value })
+      }
+      className="launch-input"
+    />
+
+    <input
+      type="text"
+      placeholder="Description"
+      value={newMission.description}
+      onChange={(e) =>
+        setNewMission({ ...newMission, description: e.target.value })
+      }
+      className="launch-input"
+    />
+    <input
+      type="text"
+      placeholder="Image URL (e.g. /images/mission1.png)"
+      value={newMission.image}
+      onChange={(e) =>
+        setNewMission({ ...newMission, image: e.target.value })
+      }
+      className="launch-input"
+    />
+
+    <button className="launch-button" onClick={handleAddMission}>
+      ➕ Add Mission
+    </button>
+  </div>
+  )
+}
 
     {/* Completed Missions */}
     {tab === "completed" && (
@@ -299,6 +325,7 @@ return (
         )}
       </div>
     )}
+
     {/* ✅ Planets Tab (inside return) */}
     {tab === "planets" && (
       <div>
@@ -339,9 +366,6 @@ return (
   </div> 
 );
 
-
 }
-
-
 
 export default MissionPage;
