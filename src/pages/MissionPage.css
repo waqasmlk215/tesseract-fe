@@ -34,24 +34,17 @@
 }
 .mission-description {
   margin: 2px 0;
-  color: #bbb;
-  font-size: 14px;
 }
 .mission-date {
   margin: 2px 0;
-  font-size: 14px;
-  color: #ccc;
 }
 
 .mission-line,
 .completed-line {
-  display: flex; 
+  min-height: 112px; /* match ongoing line height */
+  display: flex;
   align-items: center;
-  gap: 12px;  
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 14px 0;
-  margin: 0 auto 12px;
-  max-width: 1290px;
+  margin-left: auto;
 }
 
 /* === ACTIONS === */
@@ -63,6 +56,7 @@
   margin-top: 10px;
   margin-left: auto;
 }
+
 .action-button {
   background: transparent;
   border: 1px solid white;
@@ -75,6 +69,7 @@
   font-weight: bold;
   letter-spacing: 1px;
   transition: all 0.2s ease;
+  margin-left: auto;
 }
 .action-button:hover {
   background: white;
@@ -161,38 +156,39 @@
   .launch-button {
     width: 100%;
   }
-} 
-.planet-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
 
-.planet-card {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease-in-out;
-}
+  } 
+  .planet-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
 
-.planet-card:hover {
-  transform: scale(1.03);
-}
+  .planet-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+  }
 
-.planet-title {
-  font-size: 18px;
-  margin-bottom: 0.5rem;
-}
+  .planet-card:hover {
+    transform: scale(1.03);
+  }
 
-.planet-description {
-  color: #bbb;
-  font-size: 14px;
-}
+  .planet-title {
+    font-size: 18px;
+    margin-bottom: 0.5rem;
+  }
 
-.planet-distance {
-  margin-top: 0.5rem;
-  font-size: 14px;
-  font-weight: bold;
-}
+  .planet-description {
+    color: #bbb;
+    font-size: 14px;
+  }
+
+  .planet-distance {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    font-weight: bold;
+  }

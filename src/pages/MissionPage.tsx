@@ -70,6 +70,7 @@ const MissionPage: React.FC = () => {
   const [newMission, setNewMission] = useState({ name: "", date: "", description: "", image: "" });
   const [rescheduleId, setRescheduleId] = useState<number | null>(null);
   const [rescheduleDate, setRescheduleDate] = useState("");
+  const [expiredMission, setExpiredMission] = useState<Mission | null>(null);
 
   // Load archive
   useEffect(() => {
@@ -82,14 +83,14 @@ const MissionPage: React.FC = () => {
     localStorage.setItem("archivedMissions", JSON.stringify(archived));
   }, [archived]);
 
-  const getAuthHeaders = (): HeadersInit => {
+const getAuthHeaders = (): HeadersInit => {
     const token = localStorage.getItem("token");
     return token
       ? { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
       : { "Content-Type": "application/json" };
   };
 
-  const refreshMissions = async () => {
+const refreshMissions = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/missions`, {
         headers: getAuthHeaders(),
@@ -105,26 +106,26 @@ const MissionPage: React.FC = () => {
     } catch (err) {
       console.error("Error fetching missions:", err);
     }
-  };
+};
 
-  useEffect(() => {
+useEffect(() => {
     refreshMissions();
-  }, []);
+}, []);
 
-  const handleAddMission = async () => {
+const handleAddMission = async () => {
     if (!newMission.name || !newMission.date) return;
 
     await fetch(`${import.meta.env.VITE_API_URL}/missions`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(newMission),
-    });
+});
 
-    setNewMission({ name: "", date: "", description: "", image: "" });
+setNewMission({ name: "", date: "", description: "", image: "" });
     refreshMissions();
-  };
+};
 
-  const handleDeleteMission = async (id: number) => {
+const handleDeleteMission = async (id: number) => {
     await fetch(`${import.meta.env.VITE_API_URL}/missions/${id}`, {
       method: "DELETE",
       headers: getAuthHeaders(),
@@ -132,48 +133,45 @@ const MissionPage: React.FC = () => {
     setMissions((prev) => prev.filter((m) => m.id !== id));
     setCompleted((prev) => prev.filter((m) => m.id !== id));
     setArchived((prev) => prev.filter((m) => m.id !== id));
-  };
+};
 
-  const handleCompleteMission = (id: number) => {
+const handleCompleteMission = (id: number) => {
     const missionToComplete = missions.find((m) => m.id === id);
     if (!missionToComplete) return;
 
     setMissions((prev) => prev.filter((m) => m.id !== id));
     setCompleted((prev) => [...prev, missionToComplete]);
-  };
+};
 
-  const handleExpireMission = (id: number) => {
-    const missionToArchive = missions.find((m) => m.id === id);
-    if (!missionToArchive) return;
+const handleExpireMission = (id: number) => {
+  const mission = missions.find((m) => m.id === id);
+  if (!mission) return;
+  setExpiredMission(mission); 
+};
 
-    setMissions((prev) => prev.filter((m) => m.id !== id));
-    setArchived((prev) => [...prev, missionToArchive]);
-    alert(`Mission "${missionToArchive.name}" expired and moved to Archive.`);
-  };
-
-  const startReschedule = (id: number) => {
+const startReschedule = (id: number) => {
     setRescheduleId(id);
     const mission = archived.find((m) => m.id === id);
     if (mission) setRescheduleDate(mission.date);
-  };
+};
 
-  const handleReschedule = async () => {
+const handleReschedule = async () => {
     if (!rescheduleId || !rescheduleDate) return;
 
     await fetch(`${import.meta.env.VITE_API_URL}/missions/${rescheduleId}`, {
       method: "PATCH",
       headers: getAuthHeaders(),
       body: JSON.stringify({ date: rescheduleDate }),
-    });
+});
 
-    const updatedMission = archived.find((m) => m.id === rescheduleId);
+const updatedMission = archived.find((m) => m.id === rescheduleId);
     if (updatedMission) {
       updatedMission.date = rescheduleDate;
       setArchived((prev) => prev.filter((m) => m.id !== rescheduleId));
       setMissions((prev) => [...prev, updatedMission]);
-    }
+}
 
-    setRescheduleId(null);
+  setRescheduleId(null);
     setRescheduleDate("");
   };
 
@@ -185,8 +183,8 @@ return (
     {/* Current Missions */}
     {tab === "current" && (
       <>
-        <h1 className="launch-heading">Upcoming Launches</h1>
-        {missions.length === 0 && <p>No upcoming missions.</p>}
+        <h1 className="launch-heading">Ongoing Launches</h1>
+        {missions.length === 0 && <p>No Ongoing missions.</p>}
         {missions.map((m) => (
           <MissionCard
             key={m.id}
@@ -196,7 +194,7 @@ return (
           />
         ))}
       </>
-    )}
+)}
 
    {/* Launch Options */}
 {tab === "launch" && (
@@ -251,80 +249,109 @@ return (
   )
 }
 
-    {/* Completed Missions */}
-    {tab === "completed" && (
-      <div>
-        <h1>Completed Missions</h1>
-        {completed.length === 0 ? (
-          <p>No completed missions.</p>
-        ) : (
-          completed.map((m) => (
-            <div key={m.id} className="completed-line">
-              <h3>{m.name}</h3>
-              <p>{m.description}</p>
-              <p>
-                Completed Date: <b>{m.date}</b>
-              </p>
-              <button
-                className="action-button"
-                onClick={() => handleDeleteMission(m.id)}
-              >
-                🗑 Delete
-              </button>
-            </div>
-          ))
-        )}
-      </div>
-    )}
-
-    {/* Archived Missions */}
-    {tab === "archive" && (
-      <div>
-        <h1>Archived Missions</h1>
-        {archived.length === 0 ? (
-          <p>No missions in archive.</p>
-        ) : (
-          archived.map((m) => (
-            <div key={m.id} className="completed-line">
-              <h3>{m.name}</h3>
-              <p>{m.description}</p>
-              <p>
-                Archived Date: <b>{m.date}</b>
-              </p>
-              <div className="action-buttons-row">
-                <button
-                  className="action-button"
-                  onClick={() => startReschedule(m.id)}
-                >
-                  ⏰ Reschedule
-                </button>
-                <button
-                  className="action-button"
-                  onClick={() => handleDeleteMission(m.id)}
-                >
-                  🗑 Delete
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-
-        {rescheduleId && (
-          <div className="reschedule-box">
-            <h3>Reschedule Mission</h3>
-            <input
-              type="datetime-local"
-              value={rescheduleDate}
-              onChange={(e) => setRescheduleDate(e.target.value)}
-              className="launch-input"
-            />
-            <button className="launch-button" onClick={handleReschedule}>
-              ✅ Update Date
+{tab === "completed" && (
+  <div>
+    <h1 className="launch-heading">Completed Missions</h1>
+    {completed.length === 0 ? (
+      <p>No completed missions.</p>
+    ) : (
+      completed.map((m) => (
+        <div key={m.id} className="completed-line">
+          <img
+            src={m.image || "/testicon.png"}
+            alt={m.name}
+            style={{ width: "164px", height: "83px", marginRight: "16px" }}
+            onError={(e) => {
+              const t = e.currentTarget;
+              if (!t.dataset.fallback) {
+                t.dataset.fallback = "1";
+                t.src = "/default-mission.png";
+              }
+            }}
+          />
+          <div className="mission-info">
+            <h3 className="mission-title">{m.name}</h3>
+            <p className="mission-description">{m.description || "--"}</p>
+            <p className="mission-date">
+              Completed Date: <b>{m.date}</b>
+            </p>
+          </div>
+          <div className="mission-actions">
+            <button
+              className="action-button"
+              onClick={() => handleDeleteMission(m.id)}
+            >
+              🗑 Delete
             </button>
           </div>
-        )}
+        </div>
+      ))
+    )}
+  </div>
+)}
+
+
+{tab === "archive" && (
+  <div>
+    <h1 className="launch-heading">Archived Missions</h1>
+    {archived.length === 0 ? (
+      <p>No missions in archive.</p>
+    ) : (
+      archived.map((m) => (
+        <div key={m.id} className="completed-line">
+          <img
+            src={m.image || "/testicon.png"}
+            alt={m.name}
+            style={{ width: "164px", height: "83px", marginRight: "16px" }}
+            onError={(e) => {
+              const t = e.currentTarget;
+              if (!t.dataset.fallback) {
+                t.dataset.fallback = "1";
+                t.src = "/default-mission.png";
+              }
+            }}
+          />
+          <div className="mission-info">
+            <h3 className="mission-title">{m.name}</h3>
+            <p className="mission-description">{m.description || "--"}</p>
+            <p className="mission-date">
+              Archived Date: <b>{m.date}</b>
+            </p>
+          </div>
+          <div className="mission-actions">
+            <button
+              className="action-button"
+              onClick={() => startReschedule(m.id)}
+            >
+              ⏰ Reschedule
+            </button>
+            <button
+              className="action-button"
+              onClick={() => handleDeleteMission(m.id)}
+            >
+              🗑 Delete
+            </button>
+        </div>
+    </div>
+  ))
+)}
+
+{rescheduleId && (
+      <div className="reschedule-box">
+        <h3>Reschedule Mission</h3>
+        <input
+          type="datetime-local"
+          value={rescheduleDate}
+          onChange={(e) => setRescheduleDate(e.target.value)}
+          className="launch-input"
+        />
+        <button className="launch-button" onClick={handleReschedule}>
+          ✅ Update Date
+        </button>
       </div>
     )}
+  </div>
+)}
 
     {/* ✅ Planets Tab (inside return) */}
     {tab === "planets" && (
@@ -362,7 +389,40 @@ return (
           ))}
         </div>
       </div>
-    )}  
+    )}
+
+    {/* 🚨 Expired Mission Popup */}
+    {expiredMission && (
+      <div className="popup-overlay">
+        <div className="popup-box">
+          <h3>Mission "{expiredMission.name}" Timer Complete!</h3>
+          <div className="popup-actions">
+            <button
+              onClick={() => {
+                setMissions((prev) =>
+                  prev.filter((m) => m.id !== expiredMission.id)
+                );
+                setCompleted((prev) => [...prev, expiredMission]);
+                setExpiredMission(null);
+              }}
+            >
+              🚀 Launch
+            </button>
+            <button
+              onClick={() => {
+                setMissions((prev) =>
+                  prev.filter((m) => m.id !== expiredMission.id)
+                );
+                setArchived((prev) => [...prev, expiredMission]);
+                setExpiredMission(null);
+              }}
+            >
+              📦 Archive
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
   </div> 
 );
 
