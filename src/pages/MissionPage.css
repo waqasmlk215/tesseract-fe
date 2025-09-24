@@ -1,21 +1,25 @@
 /* Global wrapper */
 .mission-page {
-  padding-top: 80px;
+  padding-top: 60px;
   background: transparent;
   color: inherit;
   min-height: 100vh;
-  padding: 0;
   font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
+  position: relative;
+  z-index: 2;
+  color: white;
 }
 
 /* === HEADINGS === */
 .launch-heading {
+  align-self: flex-start;
   font-size: 28px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-align: left;
   margin: 20px 0;
-  text-align: center;
+  margin-left: 2rem;
 }
 
 .launch-paragraph {
@@ -34,7 +38,7 @@
   justify-content: center;
   color: white;
   text-align: center;
-  z-index: 1;
+  z-index: 0;  
 }
 
 .hero-title {
@@ -42,8 +46,15 @@
 }
 
 .hero-overlay {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  inset: 0;           /* stretch full hero */
+  z-index: 1;
+
+  display: flex;      /* use flexbox */
+  flex-direction: column; 
+  align-items: center; /* center horizontally */
+  justify-content: center; /* center vertically */
+  text-align: center; /* optional, for multi-line text */
 }
 
 .hero-section::after {
@@ -82,10 +93,13 @@
 
 .mission-line,
 .completed-line {
+  align-self: flex-start;  /* push this element to the left */
+  margin-left: 2rem;       /* add spacing from edge */
   min-height: 112px; /* match ongoing line height */
   display: flex;
   align-items: center;
-  margin-left: auto;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
 /* === ACTIONS === */
@@ -182,7 +196,11 @@
   }
 
   .launch-heading {
-    font-size: 22px;
+    align-self: flex-start;  /* push this element to the left */
+    margin-left: 2rem;       /* add spacing from edge */
+    position: relative; 
+    z-index: 2;           /* force them above hero background */
+    color: white; 
   }
 
   .launch-form-wrapper {
