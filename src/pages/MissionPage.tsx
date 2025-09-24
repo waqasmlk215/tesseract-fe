@@ -72,6 +72,10 @@ const MissionPage: React.FC = () => {
   const [rescheduleDate, setRescheduleDate] = useState("");
   const [expiredMission, setExpiredMission] = useState<Mission | null>(null);
 
+  const [scrolled, setScrolled] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   // Load archive
   useEffect(() => {
     const savedArchive = localStorage.getItem("archivedMissions");
@@ -82,6 +86,29 @@ const MissionPage: React.FC = () => {
   useEffect(() => {
     localStorage.setItem("archivedMissions", JSON.stringify(archived));
   }, [archived]);
+
+useEffect(() => {
+    const handleScroll = () => {
+    const currentScroll = window.scrollY;
+
+    // Toggle "scrolled" state
+    setScrolled(currentScroll > 50);
+
+    // Show/hide based on scroll direction
+    if (currentScroll > lastScrollY && currentScroll > 100) {
+      // scrolling down
+      setShowNavbar(false);
+    } else {
+      // scrolling up
+      setShowNavbar(true);
+    }
+
+    setLastScrollY(currentScroll);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [lastScrollY]);
 
 const getAuthHeaders = (): HeadersInit => {
     const token = localStorage.getItem("token");
@@ -177,13 +204,25 @@ const updatedMission = archived.find((m) => m.id === rescheduleId);
 
 return (
   <div className="mission-page">
-    {/* */}
+    
+  <div className={`mission-tabs-wrapper ${scrolled ? "scrolled" : ""} ${!showNavbar ? "hidden" : ""}`}>
     <MissionTabs tab={tab} setTab={setTab} />
+  </div>
 
     {/* Current Missions */}
     {tab === "current" && (
       <>
-        <h1 className="launch-heading">Ongoing Launches</h1>
+      {/* 🚀 Hero Section */}
+    <div className="hero-section">
+
+      <div className="hero-overlay">
+        <h1 className="hero-title">IMAP MISSION</h1>
+        <p className="hero-subtitle">T-03:28:35</p>
+        <button className="hero-button">WATCH →</button>
+      </div>
+    </div>
+
+    <h1 className="launch-heading">Ongoing Launches</h1>
         {missions.length === 0 && <p>No Ongoing missions.</p>}
         {missions.map((m) => (
           <MissionCard
@@ -194,10 +233,11 @@ return (
           />
         ))}
       </>
-)}
+    )}
 
    {/* Launch Options */}
 {tab === "launch" && (
+
   <div className="launch-form-wrapper">
     <h1 className="launch-heading">Launch Options</h1>
     <p className="launch-paragraph">

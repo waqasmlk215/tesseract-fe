@@ -1,9 +1,10 @@
 /* Global wrapper */
 .mission-page {
-  background: black;
-  color: white;
+  padding-top: 80px;
+  background: transparent;
+  color: inherit;
   min-height: 100vh;
-  padding: 10px 10px;
+  padding: 0;
   font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -22,6 +23,46 @@
   margin-bottom: 20px;
   color: #aaa;
   text-align: center;
+}
+
+.hero-section {
+  position: relative;
+  height: 100vh;
+  background: url('/rocket.jpg') center center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 12px;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, black 100%);
+  z-index: 1;
+}
+
+.content-section {
+  background: black;
+  color: white;
+  padding: 80px 40px;
+  position: relative;
+  z-index: 3;
 }
 
 /* === MISSION LISTS === */
@@ -78,6 +119,7 @@
 
 /* === LAUNCH FORM === */
 .launch-form-wrapper {
+  margin-top: 120px; 
   display: flex;
   flex-direction: column;
   align-items: center;
