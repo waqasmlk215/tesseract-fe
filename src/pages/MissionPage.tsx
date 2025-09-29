@@ -87,7 +87,7 @@ const MissionPage: React.FC = () => {
     localStorage.setItem("archivedMissions", JSON.stringify(archived));
   }, [archived]);
 
-useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
     const currentScroll = window.scrollY;
 
@@ -221,8 +221,8 @@ return (
           {/* 🚀 Hero Section */}
           <div className="hero-section">
             <div className="hero-overlay">
-              <h1 className="hero-title">IMAP MISSION</h1>
-              <p className="hero-subtitle">T-03:28:35</p>
+              <h1 className="hero-title">MISSION VIEW</h1>
+              <p className="hero-subtitle">--------</p>
               <button className="hero-button">WATCH →</button>
             </div>
           </div>

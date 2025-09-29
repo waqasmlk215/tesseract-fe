@@ -1,6 +1,6 @@
 /* Global wrapper */
 .mission-page {
-  padding-top: 60px;
+  padding-top: 6px;
   background: transparent;
   color: inherit;
   min-height: 100vh;
@@ -133,7 +133,7 @@
 
 /* === LAUNCH FORM === */
 .launch-form-wrapper {
-  margin-top: 120px; 
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
