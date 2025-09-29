@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MissionTimer from "./MissionTimer";
-import MissionTabs from "./MissionTabs"; // ✅ new import
+import MissionTabs from "./MissionTabs"; 
 import "./MissionPage.css";
-import Planets from "./Planets"; // ✅ planets import
+import Planets from "./Planets";
 
 interface Mission {
   id: number;
@@ -208,23 +208,27 @@ const MissionPage: React.FC = () => {
     setRescheduleDate("");
   };
 
-  return (
-    <div className="mission-page">
-      <div
-        className={`mission-tabs-wrapper ${scrolled ? "scrolled" : ""} ${
-          !showNavbar ? "hidden" : ""
-        }`}
-      >
-        <MissionTabs tab={tab} setTab={setTab} />
-      </div>
+return (
+  <>
+    {/* Tabs Wrapper stays on top */}
+    <div
+      className={`mission-tabs-wrapper ${scrolled ? "scrolled" : ""} ${
+        !showNavbar ? "hidden" : ""
+      }`}
+    >
+      <MissionTabs tab={tab} setTab={setTab} />
+    </div>
 
+    {/* Mission Page begins right after */}
+    <div className="mission-page">
       {/* Current Missions */}
       {tab === "current" && (
         <>
+          {/* 🚀 Hero Section */}
           <div className="hero-section">
             <div className="hero-overlay">
-              <h1 className="hero-title">IMAP MISSION</h1>
-              <p className="hero-subtitle">T-03:28:35</p>
+              <h1 className="hero-title">MISSION VIEW</h1>
+              <p className="hero-subtitle">--------</p>
               <button className="hero-button">WATCH →</button>
             </div>
           </div>
@@ -245,7 +249,7 @@ const MissionPage: React.FC = () => {
       {/* Launch Options */}
       {tab === "launch" && (
         <div className="launch-form-wrapper">
-          <h1 className="launch-heading">Launch Options</h1>
+          <h1 className="launch-options-heading">Launch Options</h1>
           <p className="launch-paragraph">Configure and schedule new missions.</p>
 
           <input
@@ -293,7 +297,7 @@ const MissionPage: React.FC = () => {
         </div>
       )}
 
-      {/* Completed */}
+      {/* Completed Missions */}
       {tab === "completed" && (
         <div>
           <h1 className="launch-heading">Completed Missions</h1>
@@ -335,7 +339,7 @@ const MissionPage: React.FC = () => {
         </div>
       )}
 
-      {/* Archive */}
+      {/* Archived Missions */}
       {tab === "archive" && (
         <div>
           <h1 className="launch-heading">Archived Missions</h1>
@@ -405,7 +409,7 @@ const MissionPage: React.FC = () => {
         </div>
       )}
 
-      {/* Expired Popup */}
+      {/* 🚨 Expired Mission Popup */}
       {expiredMission && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -438,7 +442,9 @@ const MissionPage: React.FC = () => {
         </div>
       )}
     </div>
-  );
-};
+  </>
+);
+
+}
 
 export default MissionPage;

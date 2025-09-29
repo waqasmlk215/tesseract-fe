@@ -1,33 +1,37 @@
 /* Tabs wrapper */
 .tabs {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  padding: 15px 40px;
-  max-width: 100%;
-  width: 100%;
+  align-items: right;
+  justify-content: space-between; /* brand left, tabs right */
+  padding: 0 10px 0 4px;               /* space from screen edges */
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
 /* Brand (Tesseract logo/text) */
 .brand {
   font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
-  font-size: 28px;        /* was 40px */
+  font-size: 28px;
   font-weight: bold;
   color: #fff;
-  letter-spacing: 3px;    /* was 5px */
+  letter-spacing: 5px;
   text-transform: uppercase;
-  margin-left: 0.2px;
+  margin-left: 0px;   /* tiny gap from left edge */
+  margin-right: 40px; /* <-- creates a fixed gap between brand and tabs */
+  padding: 0 10px 0 4px;
 }
 
 /* Tab buttons container */
 .tab-group {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center; /* keep buttons centered */
+  flex-wrap: nowrap;        /* ❌ no wrapping */
+  flex: 0 0 auto;
+  justify-content: flex-start;
+  padding: 0 10px 0 8px;
   max-width: 100%;
+  overflow-x: auto;         /* ✅ allow scroll if space runs out */
+  -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
 }
 
 /* Default tab */
@@ -68,10 +72,20 @@
 .mission-tabs-wrapper {
   position: fixed;
   top: 0;
-  width: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 12px 0; /* vertical space for the tabs area */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.85),
+    rgba(0, 0, 0, 0)
+  );
   transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 100;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center; /* centers inner .tabs */
+  align-items: center;
 }
 
 .mission-tabs-wrapper.hidden {

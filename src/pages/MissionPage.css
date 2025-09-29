@@ -1,13 +1,12 @@
 /* Global wrapper */
 .mission-page {
-  padding-top: 80px;
+  padding-top: 64px; /* <-- set this to the visible height of the fixed tabs area */
   background: transparent;
   color: inherit;
   min-height: 100vh;
-  padding: 0;
   font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
+  box-sizing: border-box;
 }
-
 /* === HEADINGS === */
 .launch-heading {
   font-size: 28px;
@@ -15,7 +14,19 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 20px 0;
+  text-align: left;
+  color: #fff;
+  margin-left: 20px;
+}
+
+.launch-options-heading {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 20px 0;
   text-align: center;
+  color: #fff;
 }
 
 .launch-paragraph {
@@ -86,6 +97,8 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+  margin: 0 auto; 
+  max-width: 98%;
 }
 
 /* === ACTIONS === */
