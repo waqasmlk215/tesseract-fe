@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MissionTimer from "./MissionTimer";
 import MissionTabs from "./MissionTabs"; // ✅ new import
 import "./MissionPage.css";
-import Planets from "./Planets"; // ✅ planets import
 
 interface Mission {
   id: number;
@@ -209,24 +208,29 @@ const MissionPage: React.FC = () => {
   };
 
 return (
-  <div className="mission-page">
-    
-  <div className={`mission-tabs-wrapper ${scrolled ? "scrolled" : ""} ${!showNavbar ? "hidden" : ""}`}>
-    <MissionTabs tab={tab} setTab={setTab} />
-  </div>
-
-    {/* Current Missions */}
-    {tab === "current" && (
-      <>
-      {/* 🚀 Hero Section */}
-    <div className="hero-section">
-
-      <div className="hero-overlay">
-        <h1 className="hero-title">IMAP MISSION</h1>
-        <p className="hero-subtitle">T-03:28:35</p>
-        <button className="hero-button">WATCH →</button>
-      </div>
+  <>
+    {/* Tabs Wrapper stays on top */}
+    <div
+      className={`mission-tabs-wrapper ${scrolled ? "scrolled" : ""} ${
+        !showNavbar ? "hidden" : ""
+      }`}
+    >
+      <MissionTabs tab={tab} setTab={setTab} />
     </div>
+
+    {/* Mission Page begins right after */}
+    <div className="mission-page">
+      {/* Current Missions */}
+      {tab === "current" && (
+        <>
+          {/* 🚀 Hero Section */}
+          <div className="hero-section">
+            <div className="hero-overlay">
+              <h1 className="hero-title">MISSION VIEW</h1>
+              <p className="hero-subtitle">--------</p>
+              <button className="hero-button">WATCH →</button>
+            </div>
+          </div>
 
           <h1 className="launch-heading">Ongoing Launches</h1>
           {missions.length === 0 && <p>No Ongoing missions.</p>}
@@ -292,92 +296,93 @@ return (
         </div>
       )}
 
-{tab === "completed" && (
-  <div>
-    <h1 className="launch-heading">Completed Missions</h1>
-    {completed.length === 0 ? (
-      <p>No completed missions.</p>
-    ) : (
-      completed.map((m) => (
-        <div key={m.id} className="completed-line">
-          <img
-            src={m.image || "/testicon.png"}
-            alt={m.name}
-            style={{ width: "164px", height: "83px", marginRight: "16px" }}
-            onError={(e) => {
-              const t = e.currentTarget;
-              if (!t.dataset.fallback) {
-                t.dataset.fallback = "1";
-                t.src = "/default-mission.png";
-              }
-            }}
-          />
-          <div className="mission-info">
-            <h3 className="mission-title">{m.name}</h3>
-            <p className="mission-description">{m.description || "--"}</p>
-            <p className="mission-date">
-              Completed Date: <b>{m.date}</b>
-            </p>
-          </div>
-          <div className="mission-actions">
-            <button
-              className="action-button"
-              onClick={() => handleDeleteMission(m.id)}
-            >
-              🗑 Delete
-            </button>
-          </div>
+      {/* Completed Missions */}
+      {tab === "completed" && (
+        <div>
+          <h1 className="launch-heading">Completed Missions</h1>
+          {completed.length === 0 ? (
+            <p>No completed missions.</p>
+          ) : (
+            completed.map((m) => (
+              <div key={m.id} className="completed-line">
+                <img
+                  src={m.image || "/testicon.png"}
+                  alt={m.name}
+                  style={{ width: "164px", height: "83px", marginRight: "16px" }}
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    if (!t.dataset.fallback) {
+                      t.dataset.fallback = "1";
+                      t.src = "/default-mission.png";
+                    }
+                  }}
+                />
+                <div className="mission-info">
+                  <h3 className="mission-title">{m.name}</h3>
+                  <p className="mission-description">{m.description || "--"}</p>
+                  <p className="mission-date">
+                    Completed Date: <b>{m.date}</b>
+                  </p>
+                </div>
+                <div className="mission-actions">
+                  <button
+                    className="action-button"
+                    onClick={() => handleDeleteMission(m.id)}
+                  >
+                    🗑 Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-      ))
-    )}
-  </div>
-)}
+      )}
 
-
-{tab === "archive" && (
-  <div>
-    <h1 className="launch-heading">Archived Missions</h1>
-    {archived.length === 0 ? (
-      <p>No missions in archive.</p>
-    ) : (
-      archived.map((m) => (
-        <div key={m.id} className="completed-line">
-          <img
-            src={m.image || "/testicon.png"}
-            alt={m.name}
-            style={{ width: "164px", height: "83px", marginRight: "16px" }}
-            onError={(e) => {
-              const t = e.currentTarget;
-              if (!t.dataset.fallback) {
-                t.dataset.fallback = "1";
-                t.src = "/default-mission.png";
-              }
-            }}
-          />
-          <div className="mission-info">
-            <h3 className="mission-title">{m.name}</h3>
-            <p className="mission-description">{m.description || "--"}</p>
-            <p className="mission-date">
-              Archived Date: <b>{m.date}</b>
-            </p>
-          </div>
-          <div className="mission-actions">
-            <button
-              className="action-button"
-              onClick={() => startReschedule(m.id)}
-            >
-              ⏰ Reschedule
-            </button>
-            <button
-              className="action-button"
-              onClick={() => handleDeleteMission(m.id)}
-            >
-              🗑 Delete
-            </button>
-        </div>
-    </div>
-  ))
-)}
+      {/* Archived Missions */}
+      {tab === "archive" && (
+        <div>
+          <h1 className="launch-heading">Archived Missions</h1>
+          {archived.length === 0 ? (
+            <p>No missions in archive.</p>
+          ) : (
+            archived.map((m) => (
+              <div key={m.id} className="completed-line">
+                <img
+                  src={m.image || "/testicon.png"}
+                  alt={m.name}
+                  style={{ width: "164px", height: "83px", marginRight: "16px" }}
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    if (!t.dataset.fallback) {
+                      t.dataset.fallback = "1";
+                      t.src = "/default-mission.png";
+                    }
+                  }}
+                />
+                <div className="mission-info">
+                  <h3 className="mission-title">{m.name}</h3>
+                  <p className="mission-description">{m.description || "--"}</p>
+                  <p className="mission-date">
+                    Archived Date: <b>{m.date}</b>
+                  </p>
+                </div>
+                <div className="mission-actions">
+                  <button
+                    className="action-button"
+                    onClick={() => startReschedule(m.id)}
+                  >
+                    ⏰ Reschedule
+                  </button>
+                  <button
+                    className="action-button"
+                    onClick={() => handleDeleteMission(m.id)}
+                  >
+                    🗑 Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
 
           {rescheduleId && (
             <div className="reschedule-box">
@@ -396,77 +401,78 @@ return (
         </div>
       )}
 
-    {/* ✅ Planets Tab (inside return) */}
-    {tab === "planets" && (
-      <div>
-        <h1 className="launch-heading">Habitable Planets</h1>
-        <p className="launch-paragraph">
-          Exploring potential worlds beyond Earth.
-        </p>
+      {/* ✅ Planets Tab */}
+      {tab === "planets" && (
+        <div>
+          <h1 className="launch-heading">Habitable Planets</h1>
+          <p className="launch-paragraph">
+            Exploring potential worlds beyond Earth.
+          </p>
 
-        <div className="planet-list">
-          {[
-            {
-              name: "Mars",
-              desc: "The Red Planet – closest habitable candidate.",
-              distance: "225M km",
-            },
-            {
-              name: "Kepler-452b",
-              desc: "An Earth-like planet in the habitable zone.",
-              distance: "1,400 ly",
-            },
-            {
-              name: "Proxima b",
-              desc: "Orbits Proxima Centauri, our nearest star neighbor.",
-              distance: "4.24 ly",
-            },
-          ].map((planet, idx) => (
-            <div key={idx} className="planet-card">
-              <h3 className="planet-title">{planet.name}</h3>
-              <p className="planet-description">{planet.desc}</p>
-              <p className="planet-distance">
-                Distance: <b>{planet.distance}</b>
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
-
-    {/* 🚨 Expired Mission Popup */}
-    {expiredMission && (
-      <div className="popup-overlay">
-        <div className="popup-box">
-          <h3>Mission "{expiredMission.name}" Timer Complete!</h3>
-          <div className="popup-actions">
-            <button
-              onClick={() => {
-                setMissions((prev) =>
-                  prev.filter((m) => m.id !== expiredMission.id)
-                );
-                setCompleted((prev) => [...prev, expiredMission]);
-                setExpiredMission(null);
-              }}
-            >
-              🚀 Launch
-            </button>
-            <button
-              onClick={() => {
-                setMissions((prev) =>
-                  prev.filter((m) => m.id !== expiredMission.id)
-                );
-                setArchived((prev) => [...prev, expiredMission]);
-                setExpiredMission(null);
-              }}
-            >
-              📦 Archive
-            </button>
+          <div className="planet-list">
+            {[
+              {
+                name: "Mars",
+                desc: "The Red Planet – closest habitable candidate.",
+                distance: "225M km",
+              },
+              {
+                name: "Kepler-452b",
+                desc: "An Earth-like planet in the habitable zone.",
+                distance: "1,400 ly",
+              },
+              {
+                name: "Proxima b",
+                desc: "Orbits Proxima Centauri, our nearest star neighbor.",
+                distance: "4.24 ly",
+              },
+            ].map((planet, idx) => (
+              <div key={idx} className="planet-card">
+                <h3 className="planet-title">{planet.name}</h3>
+                <p className="planet-description">{planet.desc}</p>
+                <p className="planet-distance">
+                  Distance: <b>{planet.distance}</b>
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
-    )}
-  </div> 
+      )}
+
+      {/* 🚨 Expired Mission Popup */}
+      {expiredMission && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <h3>Mission "{expiredMission.name}" Timer Complete!</h3>
+            <div className="popup-actions">
+              <button
+                onClick={() => {
+                  setMissions((prev) =>
+                    prev.filter((m) => m.id !== expiredMission.id)
+                  );
+                  setCompleted((prev) => [...prev, expiredMission]);
+                  setExpiredMission(null);
+                }}
+              >
+                🚀 Launch
+              </button>
+              <button
+                onClick={() => {
+                  setMissions((prev) =>
+                    prev.filter((m) => m.id !== expiredMission.id)
+                  );
+                  setArchived((prev) => [...prev, expiredMission]);
+                  setExpiredMission(null);
+                }}
+              >
+                📦 Archive
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </>
 );
 
 }
