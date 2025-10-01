@@ -92,11 +92,7 @@ const Planets: React.FC = () => {
                 <span className="info-label">Discovery Method:</span>
                 <span className="info-value">{planet.discoveryMethod}</span>
               </div>
-              <div className="info-row description-row">
-                <span className="info-label">Description:</span>
-                <span className="info-value description">
-                  {planet.description}
-                </span>
+              <div>
               </div>
             </div>
           </div>

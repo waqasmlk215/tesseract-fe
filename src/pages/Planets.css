@@ -3,16 +3,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #0b0b0b;
+  background-color: #1d5e3e;
   min-height: 100vh;
 }
 
 .planets-title {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   margin-bottom: 30px;
-  color: #fff;
+  color: #d4cdcd;
   text-align: center;
-  text-shadow: 0 0 5px #fff;
+  text-shadow: 0 0 5px #000000;
 }
 
 .planets-grid {
@@ -24,7 +24,7 @@
 }
 
 .planet-card {
-  background: #1a1a1a;
+  background: #05e9c3;
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -38,7 +38,7 @@
 
 .planet-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
 }
 
 .planet-image {
@@ -49,15 +49,15 @@
 }
 
 .planet-card {
-  background: #1a1a1a;
+  background: #00000060;
   border-radius: 12px;
   padding: 20px;
   display: flex;
   flex-direction: column; /* image on top */
   gap: 15px;
-  color: #f0f0f0;
+  color: #8400ffbd;
   flex-wrap: nowrap;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.7);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -69,13 +69,13 @@
 }
 
 .planet-info {
-  display: flex;
+  display: inline;
   flex-direction: column;
   gap: 10px;
 }
 
 .info-row {
-  display: flex;
+  display: flex ;
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 2px 0;
@@ -83,13 +83,14 @@
 
 .info-label {
   font-weight: bold;
-  color: #ccc;
+  color: #c9c6c6;
   min-width: 150px; /* slightly wider labels for new fields */
 }
 
 .info-value {
-  flex: 1;
+  flex: 10;
+  font-weight: bold;
   text-align: left;
-  color: #fff;
-  word-wrap: break-word;
+  color: #ada4a4;
+  word-wrap: break-all;
 }
