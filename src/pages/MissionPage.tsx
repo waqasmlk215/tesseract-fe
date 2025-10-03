@@ -18,6 +18,7 @@ const MissionCard: React.FC<{
   onDelete: (id: number) => void;
   onComplete?: (id: number) => void;
 }> = ({ mission, onDelete, onComplete }) => {
+
   return (
     <div className="mission-line">
       {/* Mission image */}
@@ -29,7 +30,7 @@ const MissionCard: React.FC<{
           const t = e.currentTarget;
           if (!t.dataset.fallback) {
             t.dataset.fallback = "1";
-            t.src = "/default-mission.png";
+            t.src = "/testicon.png";
           }
         }}
       />
@@ -223,9 +224,6 @@ const MissionPage: React.FC = () => {
         <>
           <div className="hero-section">
             <div className="hero-overlay">
-              <h1 className="hero-title">IMAP MISSION</h1>
-              <p className="hero-subtitle">T-03:28:35</p>
-              <button className="hero-button">WATCH →</button>
             </div>
           </div>
 
@@ -245,7 +243,7 @@ const MissionPage: React.FC = () => {
       {/* Launch Options */}
       {tab === "launch" && (
         <div className="launch-form-wrapper">
-          <h1 className="launch-heading">Launch Options</h1>
+          <h1 className="launch-form-heading">Launch Options</h1>
           <p className="launch-paragraph">Configure and schedule new missions.</p>
 
           <input
@@ -310,7 +308,7 @@ const MissionPage: React.FC = () => {
                     const t = e.currentTarget;
                     if (!t.dataset.fallback) {
                       t.dataset.fallback = "1";
-                      t.src = "/default-mission.png";
+                      t.src = "/testicon.png";
                     }
                   }}
                 />
@@ -352,7 +350,7 @@ const MissionPage: React.FC = () => {
                     const t = e.currentTarget;
                     if (!t.dataset.fallback) {
                       t.dataset.fallback = "1";
-                      t.src = "/default-mission.png";
+                      t.src = "/testicon.png";
                     }
                   }}
                 />
