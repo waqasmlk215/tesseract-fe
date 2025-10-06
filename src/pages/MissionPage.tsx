@@ -170,9 +170,17 @@ const MissionPage: React.FC = () => {
     setArchived((prev) => prev.filter((m) => m.id !== id));
   };
 
-  const handleCompleteMission = (id: number) => {
+  const handleCompleteMission = async (id: number) => {
     const missionToComplete = missions.find((m) => m.id === id);
     if (!missionToComplete) return;
+
+    // ✅ Tell the backend this mission is completed
+    await fetch(`${import.meta.env.VITE_API_URL}/missions/${id}/complete`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+    });
+
+    // ✅ Update local state so UI reflects it immediately
     setMissions((prev) => prev.filter((m) => m.id !== id));
     setCompleted((prev) => [...prev, missionToComplete]);
   };
@@ -228,7 +236,8 @@ const MissionPage: React.FC = () => {
           </div>
 
           <h1 className="launch-heading">Ongoing Launches</h1>
-          {missions.length === 0 && <p>No Ongoing missions.</p>}
+          {missions.length === 0 && (
+          <p className="launch-text">No Ongoing missions.</p>)}
           {missions.map((m) => (
             <MissionCard
               key={m.id}
@@ -338,7 +347,7 @@ const MissionPage: React.FC = () => {
         <div>
           <h1 className="launch-heading">Archived Missions</h1>
           {archived.length === 0 ? (
-            <p>No missions in archive.</p>
+            <p>No missions in archive.</p> 
           ) : (
             archived.map((m) => (
               <div key={m.id} className="completed-line">

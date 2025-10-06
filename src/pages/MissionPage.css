@@ -19,6 +19,10 @@
   text-align: left;   /* align text to the left */
 }
 
+.launch-text {
+  color: red;
+}
+
 .launch-form-heading {
   font-size: 28px;
   font-weight: bold;
