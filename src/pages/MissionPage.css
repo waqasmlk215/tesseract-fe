@@ -1,10 +1,10 @@
-/* Global wrapper */
+/* === GLOBAL WRAPPER === */
 .mission-page {
-  padding-top: 6px;
+  padding-top: 0.5Px; /* pushes all content below navbar */
   background: transparent;
   color: inherit;
-  min-height: 100vh;
-  font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
+  min-height: 50vh;
+font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
   position: relative;
   z-index: 2;
   color: white;
@@ -12,14 +12,29 @@
 
 /* === HEADINGS === */
 .launch-heading {
-  align-self: flex-start;
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 80px;
+  margin-left: 10px;   /* small gap from left */
+  color: #fff;
+  text-align: left;   /* align text to the left */
+}
+
+.launch-text {
+  color: red;
+}
+
+.launch-form-heading {
   font-size: 28px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  text-align: left;
-  margin: 20px 0;
-  margin-left: 2rem;
+  margin-top: 70px;
+  margin-left: 5px;   /* small gap from left */
+  color: #fff;
+  text-align: left;   /* align text to the left */
 }
 
 .launch-paragraph {
@@ -29,6 +44,7 @@
   text-align: center;
 }
 
+/* === HERO === */
 .hero-section {
   position: relative;
   height: 100vh;
@@ -57,16 +73,15 @@
   text-align: center; /* optional, for multi-line text */
 }
 
-.hero-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, black 100%);
-  z-index: 1;
-}
+.hero-section::after { 
+  content: ''; 
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 200px; 
+  background: 
+  linear-gradient(to bottom, rgba(32, 32, 32, 0) 0%, black 100%); z-index: 1; }
 
 .content-section {
   background: black;
@@ -77,29 +92,26 @@
 }
 
 /* === MISSION LISTS === */
-
 .mission-title {
   margin: 0;
   font-size: 18px;
   font-weight: bold;
   color: #fff;
 }
-.mission-description {
-  margin: 2px 0;
-}
+
+.mission-description,
 .mission-date {
   margin: 2px 0;
 }
 
 .mission-line,
 .completed-line {
-  align-self: flex-start;  /* push this element to the left */
-  margin-left: 2rem;       /* add spacing from edge */
-  min-height: 112px; /* match ongoing line height */
+  min-height: 112px;
   display: flex;
   align-items: center;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #fff;
 }
 
 /* === ACTIONS === */
@@ -126,6 +138,7 @@
   transition: all 0.2s ease;
   margin-left: auto;
 }
+
 .action-button:hover {
   background: white;
   color: black;
@@ -133,18 +146,18 @@
 
 /* === LAUNCH FORM === */
 .launch-form-wrapper {
-  padding-top: 10px;
+  margin: 100px auto 40px; /* fixed margin so it clears navbar */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 10px;
   padding: 30px;
   background-color: #000;
   border: 1px solid rgb(255, 255, 255);
   max-width: 500px;
-  margin: 40px auto;
   border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6); /* subtle depth */
 }
 
 .launch-input {
@@ -156,6 +169,13 @@
   background-color: #111;
   color: #fff;
   font-size: 14px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.launch-input:focus {
+  border-color: white;
+  outline: none;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
 }
 
 .launch-button {
@@ -189,18 +209,53 @@
   max-width: 400px;
 }
 
+/* === PLANET CARDS === */
+.planet-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.planet-card {
+  background: rgba(255, 0, 157, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out;
+}
+
+.planet-card:hover {
+  transform: scale(1.03);
+}
+
+.planet-title {
+  font-size: 18px;
+  margin-bottom: 0.5rem;
+}
+
+.planet-description {
+  color: #bbb;
+  font-size: 14px;
+}
+
+.planet-distance {
+  margin-top: 0.5rem;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
   .mission-page {
-    padding: 15px 20px;
+    padding-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .launch-heading {
-    align-self: flex-start;  /* push this element to the left */
-    margin-left: 2rem;       /* add spacing from edge */
-    position: relative; 
-    z-index: 2;           /* force them above hero background */
-    color: white; 
+    font-size: 22px;
+    color: #fff;
   }
 
   .launch-form-wrapper {
@@ -216,39 +271,4 @@
   .launch-button {
     width: 100%;
   }
-
-  } 
-  .planet-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .planet-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease-in-out;
-  }
-
-  .planet-card:hover {
-    transform: scale(1.03);
-  }
-
-  .planet-title {
-    font-size: 18px;
-    margin-bottom: 0.5rem;
-  }
-
-  .planet-description {
-    color: #bbb;
-    font-size: 14px;
-  }
-
-  .planet-distance {
-    margin-top: 0.5rem;
-    font-size: 14px;
-    font-weight: bold;
-  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
@@ -34,32 +34,48 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h1 className="login-title">Sign In</h1>
-        <form className="login-form" onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="login-input"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="login-input"
-          />
-          <button type="submit" className="login-button">Login</button>
-        </form>
-        {error && <p className="login-error">{error}</p>}
-      </div>
+  <div className="login-page">
+    {/* Login box on the right */}
+    <div className="login-container">
+      <h1 className="login-title">Sign In</h1>
+      <form className="login-form" onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="login-input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="login-input"
+        />
+        <button type="submit" className="login-button">
+          Login
+        </button>
+      </form>
+      {error && <p className="login-error">{error}</p>}
     </div>
-  );
-};
 
+    {/* Video on the left */}
+    <div className="video-section">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="bg-video"
+        src="/6961824-uhd_3840_2160_30fps.mp4"
+      >
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+);
+}
 export default LoginPage;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MissionTimer from "./MissionTimer";
 import MissionTabs from "./MissionTabs"; // ✅ new import
 import "./MissionPage.css";
+import Planets from "./Planets"; // ✅ planets import
 
 interface Mission {
   id: number;
@@ -17,57 +18,70 @@ const MissionCard: React.FC<{
   onDelete: (id: number) => void;
   onComplete?: (id: number) => void;
 }> = ({ mission, onDelete, onComplete }) => {
-  
-return (
-  <div className="mission-line">
-    {/* Mission image */}
-    <img
-    src={mission.image || "/testicon.png"}
-    alt={mission.name}
-    style={{ width: "164px", height: "83px", marginRight: "16px" }}
-    onError={(e) => {
-    const t = e.currentTarget;
-    if (!t.dataset.fallback) {     // only do this once
-      t.dataset.fallback = "1";
-      t.src = "/default-mission.png";
-    }
-  }}
-/>
 
-    <div>
-      <h3 style={{ margin: "0", fontSize: "18px" }}>{mission.name}</h3>
-      <p style={{ margin: "2px 0", color: "#bbb" }}>{mission.description}</p>
-      <p style={{ margin: "2px 0", fontSize: "14px" }}>
-        Scheduled: <b>{mission.date}</b>{" "}
-        {mission.onExpire && (
-          <MissionTimer
-            date={mission.date}
-            onExpire={() => mission.onExpire!(mission.id)}
-          />
+  return (
+    <div className="mission-line">
+      {/* Mission image */}
+      <img
+        src={mission.image || "/testicon.png"}
+        alt={mission.name}
+        style={{ width: "164px", height: "83px", marginRight: "16px" }}
+        onError={(e) => {
+          const t = e.currentTarget;
+          if (!t.dataset.fallback) {
+            t.dataset.fallback = "1";
+            t.src = "/testicon.png";
+          }
+        }}
+      />
+
+      <div>
+        <h3 style={{ margin: "0", fontSize: "18px" }}>{mission.name}</h3>
+        <p style={{ margin: "2px 0", color: "#bbb" }}>{mission.description}</p>
+        <p style={{ margin: "2px 0", fontSize: "14px" }}>
+          Scheduled: <b>{mission.date}</b>{" "}
+          {mission.onExpire && (
+            <MissionTimer
+              date={mission.date}
+              onExpire={() => mission.onExpire!(mission.id)}
+            />
+          )}
+        </p>
+      </div>
+
+      <div className="mission-actions">
+        {onComplete && (
+          <button
+            className="action-button"
+            onClick={() => onComplete(mission.id)}
+          >
+            ✅ Complete
+          </button>
         )}
-      </p>
-    </div>
-
-    <div className="mission-actions">
-      {onComplete && (
-        <button className="action-button" onClick={() => onComplete(mission.id)}>
-          ✅ Complete
+        <button
+          className="action-button"
+          onClick={() => onDelete(mission.id)}
+        >
+          ❌ Delete
         </button>
-      )}
-      <button className="action-button" onClick={() => onDelete(mission.id)}>
-        ❌ Delete
-      </button>
+      </div>
     </div>
-  </div>
   );
 };
 
 const MissionPage: React.FC = () => {
-  const [tab, setTab] = useState<"current" | "launch" | "completed" | "archive" |"planets">("current");
+  const [tab, setTab] = useState<
+    "current" | "launch" | "completed" | "archive" | "planets"
+  >("current");
   const [missions, setMissions] = useState<Mission[]>([]);
   const [completed, setCompleted] = useState<Mission[]>([]);
   const [archived, setArchived] = useState<Mission[]>([]);
-  const [newMission, setNewMission] = useState({ name: "", date: "", description: "", image: "" });
+  const [newMission, setNewMission] = useState({
+    name: "",
+    date: "",
+    description: "",
+    image: "",
+  });
   const [rescheduleId, setRescheduleId] = useState<number | null>(null);
   const [rescheduleDate, setRescheduleDate] = useState("");
   const [expiredMission, setExpiredMission] = useState<Mission | null>(null);
@@ -89,35 +103,29 @@ const MissionPage: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-    const currentScroll = window.scrollY;
+      const currentScroll = window.scrollY;
 
-    // Toggle "scrolled" state
-    setScrolled(currentScroll > 50);
+      setScrolled(currentScroll > 50);
+      if (currentScroll > lastScrollY && currentScroll > 100) {
+        setShowNavbar(false);
+      } else {
+        setShowNavbar(true);
+      }
+      setLastScrollY(currentScroll);
+    };
 
-    // Show/hide based on scroll direction
-    if (currentScroll > lastScrollY && currentScroll > 100) {
-      // scrolling down
-      setShowNavbar(false);
-    } else {
-      // scrolling up
-      setShowNavbar(true);
-    }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
-    setLastScrollY(currentScroll);
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, [lastScrollY]);
-
-const getAuthHeaders = (): HeadersInit => {
+  const getAuthHeaders = (): HeadersInit => {
     const token = localStorage.getItem("token");
     return token
       ? { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
       : { "Content-Type": "application/json" };
   };
 
-const refreshMissions = async () => {
+  const refreshMissions = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/missions`, {
         headers: getAuthHeaders(),
@@ -133,26 +141,26 @@ const refreshMissions = async () => {
     } catch (err) {
       console.error("Error fetching missions:", err);
     }
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
     refreshMissions();
-}, []);
+  }, []);
 
-const handleAddMission = async () => {
+  const handleAddMission = async () => {
     if (!newMission.name || !newMission.date) return;
 
     await fetch(`${import.meta.env.VITE_API_URL}/missions`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(newMission),
-});
+    });
 
-setNewMission({ name: "", date: "", description: "", image: "" });
+    setNewMission({ name: "", date: "", description: "", image: "" });
     refreshMissions();
-};
+  };
 
-const handleDeleteMission = async (id: number) => {
+  const handleDeleteMission = async (id: number) => {
     await fetch(`${import.meta.env.VITE_API_URL}/missions/${id}`, {
       method: "DELETE",
       headers: getAuthHeaders(),
@@ -160,75 +168,76 @@ const handleDeleteMission = async (id: number) => {
     setMissions((prev) => prev.filter((m) => m.id !== id));
     setCompleted((prev) => prev.filter((m) => m.id !== id));
     setArchived((prev) => prev.filter((m) => m.id !== id));
-};
+  };
 
-const handleCompleteMission = (id: number) => {
+  const handleCompleteMission = async (id: number) => {
     const missionToComplete = missions.find((m) => m.id === id);
     if (!missionToComplete) return;
 
+    // ✅ Tell the backend this mission is completed
+    await fetch(`${import.meta.env.VITE_API_URL}/missions/${id}/complete`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+    });
+
+    // ✅ Update local state so UI reflects it immediately
     setMissions((prev) => prev.filter((m) => m.id !== id));
     setCompleted((prev) => [...prev, missionToComplete]);
-};
+  };
 
-const handleExpireMission = (id: number) => {
-  const mission = missions.find((m) => m.id === id);
-  if (!mission) return;
-  setExpiredMission(mission); 
-};
+  const handleExpireMission = (id: number) => {
+    const mission = missions.find((m) => m.id === id);
+    if (!mission) return;
+    setExpiredMission(mission);
+  };
 
-const startReschedule = (id: number) => {
+  const startReschedule = (id: number) => {
     setRescheduleId(id);
     const mission = archived.find((m) => m.id === id);
     if (mission) setRescheduleDate(mission.date);
-};
+  };
 
-const handleReschedule = async () => {
+  const handleReschedule = async () => {
     if (!rescheduleId || !rescheduleDate) return;
 
     await fetch(`${import.meta.env.VITE_API_URL}/missions/${rescheduleId}`, {
       method: "PATCH",
       headers: getAuthHeaders(),
       body: JSON.stringify({ date: rescheduleDate }),
-});
+    });
 
-const updatedMission = archived.find((m) => m.id === rescheduleId);
+    const updatedMission = archived.find((m) => m.id === rescheduleId);
     if (updatedMission) {
       updatedMission.date = rescheduleDate;
       setArchived((prev) => prev.filter((m) => m.id !== rescheduleId));
       setMissions((prev) => [...prev, updatedMission]);
-}
+    }
 
-  setRescheduleId(null);
+    setRescheduleId(null);
     setRescheduleDate("");
   };
 
-return (
-  <>
-    {/* Tabs Wrapper stays on top */}
-    <div
-      className={`mission-tabs-wrapper ${scrolled ? "scrolled" : ""} ${
-        !showNavbar ? "hidden" : ""
-      }`}
-    >
-      <MissionTabs tab={tab} setTab={setTab} />
-    </div>
-
-    {/* Mission Page begins right after */}
+  return (
     <div className="mission-page">
+      <div
+        className={`mission-tabs-wrapper ${scrolled ? "scrolled" : ""} ${
+          !showNavbar ? "hidden" : ""
+        }`}
+      >
+        <MissionTabs tab={tab} setTab={setTab} />
+      </div>
+
       {/* Current Missions */}
       {tab === "current" && (
         <>
-          {/* 🚀 Hero Section */}
           <div className="hero-section">
             <div className="hero-overlay">
-              <h1 className="hero-title">MISSION VIEW</h1>
-              <p className="hero-subtitle">--------</p>
-              <button className="hero-button">WATCH →</button>
             </div>
           </div>
 
           <h1 className="launch-heading">Ongoing Launches</h1>
-          {missions.length === 0 && <p>No Ongoing missions.</p>}
+          {missions.length === 0 && (
+          <p className="launch-text">No Ongoing missions.</p>)}
           {missions.map((m) => (
             <MissionCard
               key={m.id}
@@ -243,7 +252,7 @@ return (
       {/* Launch Options */}
       {tab === "launch" && (
         <div className="launch-form-wrapper">
-          <h1 className="launch-heading">Launch Options</h1>
+          <h1 className="launch-form-heading">Launch Options</h1>
           <p className="launch-paragraph">Configure and schedule new missions.</p>
 
           <input
@@ -291,7 +300,7 @@ return (
         </div>
       )}
 
-      {/* Completed Missions */}
+      {/* Completed */}
       {tab === "completed" && (
         <div>
           <h1 className="launch-heading">Completed Missions</h1>
@@ -308,7 +317,7 @@ return (
                     const t = e.currentTarget;
                     if (!t.dataset.fallback) {
                       t.dataset.fallback = "1";
-                      t.src = "/default-mission.png";
+                      t.src = "/testicon.png";
                     }
                   }}
                 />
@@ -333,12 +342,12 @@ return (
         </div>
       )}
 
-      {/* Archived Missions */}
+      {/* Archive */}
       {tab === "archive" && (
         <div>
           <h1 className="launch-heading">Archived Missions</h1>
           {archived.length === 0 ? (
-            <p>No missions in archive.</p>
+            <p>No missions in archive.</p> 
           ) : (
             archived.map((m) => (
               <div key={m.id} className="completed-line">
@@ -350,7 +359,7 @@ return (
                     const t = e.currentTarget;
                     if (!t.dataset.fallback) {
                       t.dataset.fallback = "1";
-                      t.src = "/default-mission.png";
+                      t.src = "/testicon.png";
                     }
                   }}
                 />
@@ -396,45 +405,14 @@ return (
         </div>
       )}
 
-      {/* ✅ Planets Tab */}
+      {/* Planets */}
       {tab === "planets" && (
         <div>
-          <h1 className="launch-heading">Habitable Planets</h1>
-          <p className="launch-paragraph">
-            Exploring potential worlds beyond Earth.
-          </p>
-
-          <div className="planet-list">
-            {[
-              {
-                name: "Mars",
-                desc: "The Red Planet – closest habitable candidate.",
-                distance: "225M km",
-              },
-              {
-                name: "Kepler-452b",
-                desc: "An Earth-like planet in the habitable zone.",
-                distance: "1,400 ly",
-              },
-              {
-                name: "Proxima b",
-                desc: "Orbits Proxima Centauri, our nearest star neighbor.",
-                distance: "4.24 ly",
-              },
-            ].map((planet, idx) => (
-              <div key={idx} className="planet-card">
-                <h3 className="planet-title">{planet.name}</h3>
-                <p className="planet-description">{planet.desc}</p>
-                <p className="planet-distance">
-                  Distance: <b>{planet.distance}</b>
-                </p>
-              </div>
-            ))}
-          </div>
+          <Planets />
         </div>
       )}
 
-      {/* 🚨 Expired Mission Popup */}
+      {/* Expired Popup */}
       {expiredMission && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -467,9 +445,7 @@ return (
         </div>
       )}
     </div>
-  </>
-);
-
-}
+  );
+};
 
 export default MissionPage;
