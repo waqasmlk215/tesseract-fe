@@ -4,6 +4,7 @@ import MissionTabs from "./MissionTabs"; // ✅ new import
 import "./MissionPage.css";
 import Planets from "./Planets"; // ✅ planets import
 
+
 interface Mission {
   id: number;
   name: string;
@@ -30,7 +31,7 @@ const MissionCard: React.FC<{
           const t = e.currentTarget;
           if (!t.dataset.fallback) {
             t.dataset.fallback = "1";
-            t.src = "/testicon.png";
+            t.src = "/images/testicon.png";
           }
         }}
       />
