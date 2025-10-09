@@ -4,6 +4,7 @@ import MissionTabs from "./MissionTabs"; // ✅ new import
 import "./MissionPage.css";
 import Planets from "./Planets"; // ✅ planets import
 
+
 interface Mission {
   id: number;
   name: string;
@@ -30,7 +31,7 @@ const MissionCard: React.FC<{
           const t = e.currentTarget;
           if (!t.dataset.fallback) {
             t.dataset.fallback = "1";
-            t.src = "/testicon.png";
+            t.src = "/images/testicon.png";
           }
         }}
       />
@@ -143,8 +144,17 @@ const MissionPage: React.FC = () => {
     }
   };
 
+  const refreshCompletedMissions = async () => {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/missions/completed`, {
+    headers: getAuthHeaders(),
+  });
+  const completedData = await res.json();
+  setCompleted(completedData);
+  };
+
   useEffect(() => {
     refreshMissions();
+    refreshCompletedMissions();
   }, []);
 
   const handleAddMission = async () => {
@@ -228,26 +238,42 @@ const MissionPage: React.FC = () => {
       </div>
 
       {/* Current Missions */}
-      {tab === "current" && (
-        <>
-          <div className="hero-section">
-            <div className="hero-overlay">
-            </div>
-          </div>
+{tab === "current" && (
+  <>
+    <div className="hero-section">
+      <div className="hero-overlay"></div>
+    </div>
 
-          <h1 className="launch-heading">Ongoing Launches</h1>
-          {missions.length === 0 && (
-          <p className="launch-text">No Ongoing missions.</p>)}
-          {missions.map((m) => (
-            <MissionCard
-              key={m.id}
-              mission={{ ...m, onExpire: handleExpireMission }}
-              onDelete={handleDeleteMission}
-              onComplete={handleCompleteMission}
-            />
-          ))}
-        </>
+    <h1 className="launch-heading">Ongoing Launches</h1>
+    {missions.length === 0 && (
+      <p className="launch-text">No Ongoing missions.</p>
+    )}
+    {missions.map((m) => (
+      <MissionCard
+        key={m.id}
+        mission={{ ...m, onExpire: handleExpireMission }}
+        onDelete={handleDeleteMission}
+        onComplete={handleCompleteMission}
+      />
+    ))}
+
+    {/* Completed Missions Section */}
+    <div style={{ marginTop: "40px" }}>
+      <h1 className="launch-heading">Completed Missions</h1>
+      {completed.length > 0 ? (
+        completed.map((m) => (
+          <MissionCard
+            key={m.id}
+            mission={m}
+            onDelete={handleDeleteMission}
+          />
+        ))
+      ) : (
+        <p style={{ color: "#aaa" }}>No completed missions found.</p>
       )}
+    </div>
+  </>
+)}
 
       {/* Launch Options */}
       {tab === "launch" && (
