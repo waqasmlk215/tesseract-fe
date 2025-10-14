@@ -1,14 +1,25 @@
 /* === GLOBAL WRAPPER === */
 .mission-page {
+<<<<<<< HEAD
   padding-top: 0.5Px; /* pushes all content below navbar */
   background: transparent;
   color: inherit;
   min-height: 50vh;
+=======
+  padding-top: 6px;
+  background: transparent;
+  color: inherit;
+  min-height: 100vh;
+>>>>>>> harcoded-missions-images
   font-family: "D-DIN Condensed", "Helvetica Neue", Arial, sans-serif;
+  position: relative;
+  z-index: 2;
+  color: white;
 }
 
 /* === HEADINGS === */
 .launch-heading {
+<<<<<<< HEAD
   font-size: 22px;
   font-weight: bold;
   text-transform: uppercase;
@@ -24,14 +35,23 @@
 }
 
 .launch-form-heading {
+=======
+  align-self: flex-start;
+>>>>>>> harcoded-missions-images
   font-size: 28px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
+<<<<<<< HEAD
   margin-top: 70px;
   margin-left: 5px;   /* small gap from left */
   color: #fff;
   text-align: left;   /* align text to the left */
+=======
+  text-align: left;
+  margin: 20px 0;
+  margin-left: 2rem;
+>>>>>>> harcoded-missions-images
 }
 
 .launch-paragraph {
@@ -51,7 +71,7 @@
   justify-content: center;
   color: white;
   text-align: center;
-  z-index: 1;
+  z-index: 0;  
 }
 
 .hero-title {
@@ -59,8 +79,15 @@
 }
 
 .hero-overlay {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  inset: 0;           /* stretch full hero */
+  z-index: 1;
+
+  display: flex;      /* use flexbox */
+  flex-direction: column; 
+  align-items: center; /* center horizontally */
+  justify-content: center; /* center vertically */
+  text-align: center; /* optional, for multi-line text */
 }
 
 .hero-section::after { 
@@ -96,12 +123,22 @@
 
 .mission-line,
 .completed-line {
+<<<<<<< HEAD
   min-height: 112px;
   display: flex;
   align-items: center;
   margin-left: 10px;
   margin-right: 10px;
   color: #fff;
+=======
+  align-self: flex-start;  /* push this element to the left */
+  margin-left: 2rem;       /* add spacing from edge */
+  min-height: 112px; /* match ongoing line height */
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+  margin-right: 2rem;
+>>>>>>> harcoded-missions-images
 }
 
 /* === ACTIONS === */
@@ -136,7 +173,11 @@
 
 /* === LAUNCH FORM === */
 .launch-form-wrapper {
+<<<<<<< HEAD
   margin: 100px auto 40px; /* fixed margin so it clears navbar */
+=======
+  padding-top: 10px;
+>>>>>>> harcoded-missions-images
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -244,8 +285,16 @@
   }
 
   .launch-heading {
+<<<<<<< HEAD
     font-size: 22px;
     color: #fff;
+=======
+    align-self: flex-start;  /* push this element to the left */
+    margin-left: 2rem;       /* add spacing from edge */
+    position: relative; 
+    z-index: 2;           /* force them above hero background */
+    color: white; 
+>>>>>>> harcoded-missions-images
   }
 
   .launch-form-wrapper {
