@@ -22,7 +22,7 @@
 .login-container {
   position: absolute;
   top: 50%;
-  right: 5%;
+  left: 5%;
   transform: translateY(-50%);
   max-width: 380px;
   width: 90%;

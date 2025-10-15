@@ -9,7 +9,6 @@ interface Planet {
   orbitalPeriod: string | number;
   equilibriumTemp: string | number;
   discoveryMethod: string;
-  description: string;
 }
 
 // 🪐 Hardcoded image mapping for the 10 planets
@@ -75,10 +74,6 @@ const Planets: React.FC = () => {
                 <div className="info-row">
                   <span className="info-label">Discovery Method:</span>
                   <span className="info-value">{planet.discoveryMethod}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Description:</span>
-                  <span className="info-value">{planet.description}</span>
                 </div>
               </div>
             </div>
