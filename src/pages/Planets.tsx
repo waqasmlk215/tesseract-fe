@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./planets.css";
+import "./Planets.css";
 
 interface Planet {
   id: number;
@@ -29,7 +29,7 @@ const Planets: React.FC = () => {
   const [planets, setPlanets] = useState<Planet[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/planets")
+    fetch("http://localhost:5000/planets")
       .then((res) => res.json())
       .then((data) => setPlanets(data))
       .catch((err) => console.error("Error fetching planets:", err));
