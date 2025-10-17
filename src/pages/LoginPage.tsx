@@ -70,7 +70,7 @@ const LoginPage: React.FC = () => {
         loop
         playsInline
         className="bg-video"
-        src="/6961824-uhd_3840_2160_30fps.mp4"
+        src="/login.mp4"
       >
         Your browser does not support the video tag.
       </video>
