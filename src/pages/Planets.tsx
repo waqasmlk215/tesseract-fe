@@ -4,11 +4,13 @@ import "./Planets.css";
 interface Planet {
   id: number;
   name: string;
+  imageUrl?: string;
   starName: string;
   discoveryYear: number;
   orbitalPeriod: string | number;
   equilibriumTemp: string | number;
   discoveryMethod: string;
+  description: string;
 }
 
 // 🪐 Hardcoded image mapping for the 10 planets
@@ -25,27 +27,44 @@ const imageMap: Record<string, string> = {
 };
 
 const Planets: React.FC = () => {
+  const imageKeys = Object.keys(imageMap);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [planets, setPlanets] = useState<Planet[]>([]);
 
   useEffect(() => {
+    if(planets.length > 0) return;
+    setIsLoading(true);
     fetch("http://localhost:5000/planets")
       .then((res) => res.json())
-      .then((data) => setPlanets(data))
-      .catch((err) => console.error("Error fetching planets:", err));
+      .then((data) => setPlanets(
+        data.map(
+          (dt: Planet) => ({
+            ...dt,
+            imageUrl: 
+            imageMap[dt.name.toLowerCase()] ||
+            (imageKeys.length > 0 ? imageMap[imageKeys[Math.floor(Math.random() * imageKeys.length)]] : "/fallback.jpg")
+          })
+        )
+      ))
+      .catch((err) => console.error("Error fetching planets:", err))
+      .finally(() => {
+
+        setIsLoading(false);
+      });
   }, []);
+
+  if(isLoading) return <div className="planets-container"><h2 className="planets-title">Loading...</h2></div>
 
   return (
     <div className="planets-container">
       <h2 className="planets-title">Exoplanets & Stars</h2>
       <div className="planets-grid">
         {planets.map((planet) => {
-          const imageSrc =
-            imageMap[planet.name.toLowerCase()] || "/fallback.jpg";
 
           return (
             <div key={planet.id} className="planet-card">
               <img
-                src={imageSrc}
+                src={planet.imageUrl}
                 alt={planet.name}
                 className="planet-image"
                 onError={(e) => (e.currentTarget.src = "/fallback.jpg")}
@@ -74,6 +93,10 @@ const Planets: React.FC = () => {
                 <div className="info-row">
                   <span className="info-label">Discovery Method:</span>
                   <span className="info-value">{planet.discoveryMethod}</span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">Description:</span>
+                  <span className="info-value">{planet.description}</span>
                 </div>
               </div>
             </div>
